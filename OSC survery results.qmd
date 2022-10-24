@@ -1,0 +1,237 @@
+---
+title: "OSC survey results 17.10.2022"
+format: html
+editor: visual
+---
+
+```{r}
+#| echo: false
+#| include: false
+
+library(stringr)
+library(tidyverse)
+
+```
+
+## Descriptive statistics
+
+```{r}
+#| echo: false
+data <- read.csv("OSC.csv", header = TRUE)
+data <- data[data$ended != "",]
+#data <- data[data$freecareer != "thank the formr monkey",]
+```
+
+Total number of participant in the OSC survey: **`r nrow(data)`**
+
+## Survey Resuts
+
+### Participants
+
+#### OSC affiliation
+
+```{r}
+#| echo: false
+table(data$affiliation)
+```
+
+#### Organisation location
+
+```{r}
+#| echo: false
+table(data$organisation)
+```
+
+#### Discipline
+
+```{r}
+#| echo: false
+table(data$discipline)
+```
+
+#### Career stage
+
+```{r}
+#| echo: false
+table(data$career)
+table(data$freecareer[data$freecareer != ""])
+
+```
+
+#### Subset for OSC members only?
+
+```{r}
+#| echo: false
+# subset for official LMU OSC members
+#data <- data[data$affiliation == "Yes",]
+
+if (nrow(data) == nrow(data[data$affiliation == "Yes",])) {"Yes"} else {"No"}
+```
+
+### Activities
+
+'What activities would you like the OSC community to undertake?'
+
+```{r}
+#| echo: false
+
+data$activities_Training <- grepl("training", data$activities, fixed = TRUE)
+data$activities_OSC_instructor_training <- grepl("instructor", data$activities, fixed = TRUE)
+data$activities_Branded_instructor_training <- grepl("carpentries", data$activities, fixed = TRUE)
+data$activities_Seminar <- grepl("seminar", data$activities, fixed = TRUE)
+data$activities_Community_calls <- grepl("community calls", data$activities, fixed = TRUE)
+data$activities_LMU_chat <- grepl("LMU chat", data$activities, fixed = TRUE)
+data$activities_Meta_research <- grepl("meta research", data$activities, fixed = TRUE)
+data$activities_Advocacy <- grepl("advocacy", data$activities, fixed = TRUE)
+data$activities_Hackathon <- grepl("hackathon", data$activities, fixed = TRUE)
+
+
+data_activities <- data[, grepl(pattern="activities_", x=colnames(data), fixed = TRUE)]
+
+activities_to_plot <- colSums(data_activities)
+names(activities_to_plot) <- str_remove(names(activities_to_plot), "activities_")
+
+activities_to_plot <- sort(activities_to_plot, decreasing = FALSE)
+
+par(mar = c(4,12,4,4))
+barplot(activities_to_plot, horiz = TRUE, las = 1, xlim = c(0,20))
+
+
+```
+
+#### Other activities
+
+```{r}
+#| echo: false
+table(data$freeactivities[data$freeactivities != ""])
+```
+
+### Topics
+
+'Which topics would you be interested to hear about in talks/workshops/seminars?'
+
+```{r}
+#| echo: false
+data$topics_QRP <- grepl("QRP", data$topics, fixed = TRUE)
+data$topics_Preregistration <- grepl("prereg", data$topics, fixed = TRUE)
+data$topics_Stats <- grepl("stats", data$topics, fixed = TRUE)
+data$topics_Reproducibility <- grepl("reproducibility", data$topics, fixed = TRUE)
+data$topics_RDM <- grepl("RDM", data$topics, fixed = TRUE)
+data$topics_FAIR <- grepl("FAIR", data$topics, fixed = TRUE)
+data$topics_Reporting_guidelines <- grepl("reporting", data$topics, fixed = TRUE)
+data$topics_OA <- grepl("OA", data$topics, fixed = TRUE)
+data$topics_Copyrights <- grepl("copyrights", data$topics, fixed = TRUE)
+data$topics_Meta_research <- grepl("metaresearch", data$topics, fixed = TRUE)
+data$topics_Incentives_Policies <- grepl("policies", data$topics, fixed = TRUE)
+data$topics_Research_culture <- grepl("culture", data$topics, fixed = TRUE)
+data$topics_discipline <- grepl("discipline", data$topics, fixed = TRUE)
+
+
+data_topics <- data[, grepl(pattern="topics_", x=colnames(data), fixed = TRUE)]
+
+topics_to_plot <- colSums(data_topics)
+names(topics_to_plot) <- str_remove(names(topics_to_plot), "topics_")
+
+topics_to_plot <- sort(topics_to_plot, decreasing = FALSE)
+
+par(mar=c(4,10,4,4))
+barplot(topics_to_plot, horiz = TRUE, las = 1, xlim = c(0,20))
+
+
+```
+
+#### Other topics and specific discipline
+
+```{r}
+#| echo: false
+
+table(data$specificdiscipline[data$specificdiscipline != ""])
+table(data$freetopic[data$freetopic != ""])
+```
+
+### Duration
+
+'What length of events would you consider joining?'
+
+```{r}
+#| echo: false
+
+data$duration_max_1h <- grepl("1h", data$duration, fixed = TRUE)
+data$duration_2_3h <- grepl("2-3h", data$duration, fixed = TRUE)
+data$duration_halfday <- grepl("half-day", data$duration, fixed = TRUE)
+data$duration_multidays <- grepl("multi-day", data$duration, fixed = TRUE)
+
+data_duration <- data[, grepl(pattern="duration_", x=colnames(data), fixed = TRUE)]
+
+duration_to_plot <- colSums(data_duration)
+names(duration_to_plot) <- str_remove(names(duration_to_plot), "duration_")
+
+duration_to_plot <- sort(duration_to_plot, decreasing = FALSE)
+
+par(mar=c(4,10,4,4))
+barplot(duration_to_plot, horiz = TRUE, las = 1, xlim = c(0,20))
+
+
+```
+
+### Participation
+
+'In what way would you prefer to participate in the OSIP community?'
+
+```{r}
+#| echo: false
+
+data$participation_Attend_Seminar <- grepl("attend seminar", data$participation, fixed = TRUE)
+data$participation_Lead_Seminar <- grepl("lead seminar", data$participation, fixed = TRUE)
+data$participation_Attend_Workshop <- grepl("attend workshop", data$participation, fixed = TRUE)
+data$participation_Lead_Workshop <- grepl("lead workshop", data$participation, fixed = TRUE)
+data$participation_Attend_community_call <- grepl("attend comm call", data$participation, fixed = TRUE)
+data$participation_Present_at_community_call <- grepl("present comm call", data$participation, fixed = TRUE)
+data$participation_Attend_JC <- grepl("attend JC", data$participation, fixed = TRUE)
+data$participation_Facilitate_JC <- grepl("host JC", data$participation, fixed = TRUE)
+data$participation_Attend_hachathon <- grepl("attend hackathon", data$participation, fixed = TRUE)
+data$participation_Facilitate_hachathon <- grepl("facilitate hackathon", data$participation, fixed = TRUE)
+data$participation_Attend_networking_event <- grepl("attend networking event", data$participation, fixed = TRUE)
+data$participation_Organise_networking_event <- grepl("organize networking event", data$participation, fixed = TRUE)
+data$participation_Join_discussion_on_LMU_chat <- grepl("LMU chat", data$participation, fixed = TRUE)
+data$participation_Read_newsletter <- grepl("read newsletter", data$participation, fixed = TRUE)
+data$participation_Contribute_to_newsletter <- grepl("contribute newsletter", data$participation, fixed = TRUE)
+data$participation_Be_a_contact_person <- grepl("contact person", data$participation, fixed = TRUE)
+
+data_participation <- data[, grepl(pattern="participation_", x=colnames(data), fixed = TRUE)]
+
+participation_to_plot <- colSums(data_participation)
+names(participation_to_plot) <- str_remove(names(participation_to_plot), "participation_")
+
+participation_to_plot <- sort(participation_to_plot, decreasing = FALSE)
+
+par(mar=c(4,15,4,4))
+barplot(participation_to_plot, horiz = TRUE, las = 1, xlim = c(0,20))
+
+
+```
+
+#### Other participation
+
+```{r}
+#| echo: false
+table(data$freeparticipation[data$freeparticipation != ""])
+```
+
+### Inclusion
+
+'If you have any comment(s) about what would help you feel comfortable contributing (e.g., language, online vs. in-person events, synchronous vs asynchronous contributions), please indicate them here:'
+
+```{r}
+#| echo: false
+data$inclusion[data$inclusion != "" & data$inclusion != "nope" & data$inclusion != "/" & data$inclusion != "nothing" & data$inclusion != "." & data$inclusion != "x" & data$inclusion != "leer" & data$inclusion != " " & data$inclusion != "-" & data$inclusion != "not sure" & data$inclusion != "--"]
+```
+
+### Comments
+
+'If you have any other suggestions, please indicate them here:'
+
+```{r}
+#| echo: false
+data$comment[data$comment != "" & data$comment != "nope" & data$comment != "/" & data$comment != "nothing" & data$comment != "." & data$comment != "x" & data$comment != "leer" & data$comment != " " & data$comment != "-" & data$comment != "not sure" & data$comment != "--" & data$comment != "No." & data$comment != "No" & data$comment != "nope :)" & !is.na(data$comment) & data$comment != "No other comments." & data$comment != "no" & data$comment != "nein"]
+```
