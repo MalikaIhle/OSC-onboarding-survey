@@ -19,7 +19,7 @@ library(tidyverse)
 #| echo: false
 data <- read.csv("OSC.csv", header = TRUE)
 data <- data[data$ended != "",]
-#data <- data[data$freecareer != "thank the formr monkey",]
+data <- data[data$freecareer != "thank the formr monkey",]
 ```
 
 Total number of participant in the OSC survey: **`r nrow(data)`**
