@@ -58,7 +58,7 @@ table(data$freecareer[data$freecareer != ""])
 
 ```
 
-#### Subset for OSC members only?
+#### Subset for OSC members or LMU only?
 
 ```{r}
 #| echo: false
@@ -66,6 +66,7 @@ table(data$freecareer[data$freecareer != ""])
 #data <- data[data$affiliation == "Yes",]
 
 if (nrow(data) == nrow(data[data$affiliation == "Yes",])) {"Yes"} else {"No"}
+if (nrow(data) == nrow(data[data$organisation == "LMU",])) {"Yes"} else {"No"}
 ```
 
 ### Activities
@@ -94,7 +95,7 @@ names(activities_to_plot) <- str_remove(names(activities_to_plot), "activities_"
 activities_to_plot <- sort(activities_to_plot, decreasing = FALSE)
 
 par(mar = c(4,12,4,4))
-barplot(activities_to_plot, horiz = TRUE, las = 1, xlim = c(0,20))
+barplot(activities_to_plot, horiz = TRUE, las = 1)
 
 
 ```
@@ -135,7 +136,7 @@ names(topics_to_plot) <- str_remove(names(topics_to_plot), "topics_")
 topics_to_plot <- sort(topics_to_plot, decreasing = FALSE)
 
 par(mar=c(4,10,4,4))
-barplot(topics_to_plot, horiz = TRUE, las = 1, xlim = c(0,20))
+barplot(topics_to_plot, horiz = TRUE, las = 1)
 
 
 ```
@@ -169,7 +170,7 @@ names(duration_to_plot) <- str_remove(names(duration_to_plot), "duration_")
 duration_to_plot <- sort(duration_to_plot, decreasing = FALSE)
 
 par(mar=c(4,10,4,4))
-barplot(duration_to_plot, horiz = TRUE, las = 1, xlim = c(0,20))
+barplot(duration_to_plot, horiz = TRUE, las = 1)
 
 
 ```
@@ -206,7 +207,7 @@ names(participation_to_plot) <- str_remove(names(participation_to_plot), "partic
 participation_to_plot <- sort(participation_to_plot, decreasing = FALSE)
 
 par(mar=c(4,15,4,4))
-barplot(participation_to_plot, horiz = TRUE, las = 1, xlim = c(0,20))
+barplot(participation_to_plot, horiz = TRUE, las = 1)
 
 
 ```
