@@ -1,5 +1,5 @@
 ---
-title: "OSC survey results 17.10.2022"
+title: "OSC survey results 17.11.2022"
 format: html
 editor: visual
 ---
@@ -46,7 +46,7 @@ table(data$organisation)
 
 ```{r}
 #| echo: false
-table(data$discipline)
+table(data$discipline[data$discipline != ""])
 ```
 
 #### Career stage
@@ -225,7 +225,10 @@ table(data$freeparticipation[data$freeparticipation != ""])
 
 ```{r}
 #| echo: false
-data$inclusion[data$inclusion != "" & data$inclusion != "nope" & data$inclusion != "/" & data$inclusion != "nothing" & data$inclusion != "." & data$inclusion != "x" & data$inclusion != "leer" & data$inclusion != " " & data$inclusion != "-" & data$inclusion != "not sure" & data$inclusion != "--"]
+data$inclusion[data$inclusion != "" & data$inclusion != "nope" & data$inclusion != "/" & data$inclusion != "nothing" & data$inclusion != "." & data$inclusion != "x" & data$inclusion != "leer" & data$inclusion != " " & data$inclusion != "-" & data$inclusion != "not sure" & data$inclusion != "--" & data$inclusion != "I'm a very minor importance in the network, so please don't weight my answers too much. I'm more intrested in following up whta you big players do and consider important" & 
+   data$inclusion != "Hosting, facilitating a journal club, eventually some other format where e.g. we could try to reproduce the computational part of biomedical papers (sequencing, flow cytometry, etc.) "
+     & 
+   data$inclusion != "I think our main contribution (OSIS), could be to help with individual seminars/workshops on statistics/machine learning related topics or specific R packages/workflows\n\nBut we'd have to see if there are resources and who (from our group) could contribute to topics that are interesting to the community. "]
 ```
 
 ### Comments
@@ -234,5 +237,7 @@ data$inclusion[data$inclusion != "" & data$inclusion != "nope" & data$inclusion 
 
 ```{r}
 #| echo: false
-data$comment[data$comment != "" & data$comment != "nope" & data$comment != "/" & data$comment != "nothing" & data$comment != "." & data$comment != "x" & data$comment != "leer" & data$comment != " " & data$comment != "-" & data$comment != "not sure" & data$comment != "--" & data$comment != "No." & data$comment != "No" & data$comment != "nope :)" & !is.na(data$comment) & data$comment != "No other comments." & data$comment != "no" & data$comment != "nein"]
+c(data$comment[data$comment != "" & data$comment != "nope" & data$comment != "/" & data$comment != "nothing" & data$comment != "." & data$comment != "x" & data$comment != "leer" & data$comment != " " & data$comment != "-" & data$comment != "not sure" & data$comment != "--" & data$comment != "No." & data$comment != "No" & data$comment != "nope :)" & !is.na(data$comment) & data$comment != "No other comments." & data$comment != "no" & data$comment != "nein"]
+,
+data$inclusion[data$inclusion != "" & data$inclusion != "nope" & data$inclusion != "/" & data$inclusion != "nothing" & data$inclusion != "." & data$inclusion != "x" & data$inclusion != "leer" & data$inclusion != " " & data$inclusion != "-" & data$inclusion != "not sure" & data$inclusion != "--"])
 ```
