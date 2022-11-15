@@ -76,7 +76,7 @@ if (nrow(data) == nrow(data[data$organisation == "LMU",])) {"Yes"} else {"No"}
 ```{r}
 #| echo: false
 
-data$activities_Training <- grepl("training", data$activities, fixed = TRUE)
+data$activities_Workshop <- grepl("training", data$activities, fixed = TRUE)
 data$activities_OSC_instructor_training <- grepl("instructor", data$activities, fixed = TRUE)
 data$activities_Branded_instructor_training <- grepl("carpentries", data$activities, fixed = TRUE)
 data$activities_Seminar <- grepl("seminar", data$activities, fixed = TRUE)
